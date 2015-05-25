@@ -1,0 +1,84 @@
+{% extends "sidebar.html" %}
+{% block content -%}
+ <div class="container">
+  <div class="page-header">
+    <h1>弹性运维 <small>以干掉运维为己任</small></h1>
+  </div>  <!-- /.page -->
+  <div class="row">
+    <div class="col-sm-8">
+      <div> <!-- 上传新文章 -->
+        <form id="addPost" method="POST" enctype="multipart/form-data">
+          <h2 class="form-signin-heading">上传新文章</h2>
+          <div class="form-group">
+            <label for="inputTitle">文章标题</label>
+            <input type="text" id="inputTitle" name="title" class="form-control" placeholder="文章标题" required autofocus>
+          </div>
+          <div class="form-group">
+            <label for="inputTags">Tags</label>
+            <input type="text" id="inputTags" name='tags' class="form-control" placeholder="Tags 以空格分隔" required>
+          </div>
+          <div class="form-group">
+            <label for="inputSummary">介绍</label>
+            <textarea type="text" id="inputSummary" name='Summary' class="form-control" placeholder="简单介绍" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="inputFile">选择Markdown文件</label>
+            <input type="file" id="inputFile" name='mdfile' required>
+          </div>
+          <button class="btn btn-default" id="upload" type="button">上传</button>
+          <p id='feedtext' class="hidden">成功</p>
+        </form>
+      </div>
+      <div class="add-padding"> <!-- 编辑旧文章 -->
+        {% for post in posts %}
+        <h6>{{ post.title }}<small>{{ post.update }}</small></h6>
+        <button class="btn btn-info" type="button">编辑</button>
+        {% endfor %}
+      </div>
+    </div>  <!-- /.col-sm-8 -->
+    {% block sidebar -%}
+    {{ super() }}
+    {%- endblock %}
+  </div>  <!-- /.row -->
+</div>  <!-- /.container -->
+{%- endblock %}
+{% block scripts -%}
+{{ super() }}
+    <script type="text/javascript">
+      $('#upload').click(function () {
+        var mdfile = new FormData();
+        var filebox = document.getElementById('inputFile').files[0];
+        mdfile.append('mdfile', filebox);
+        mdfile.append('title', $('#inputTitle').val());
+        mdfile.append('tags', $('#inputTags').val());
+        mdfile.append('summary', $('#inputSummary').val());
+        mdfile.append('filename', filebox.name);
+        //console.log(mdfile);
+      	$.ajax({
+      	  url: '/addPost',
+      	  //method: 'POST',
+      	  type: 'POST',
+      	  enctype: 'multipart/form-data',
+      	  data: mdfile,
+      	  success: function () {
+      	    if ('success') {
+        	  	$('#feedtext').removeClass();
+        	  	$('#feedtext').addClass('bg-success');
+        	  	$('#feedtext').html('成功');
+      	    }else {
+        	  	$('#feedtext').removeClass();
+      	    	$('#feedtext').addClass('bg-danger');
+      	    	$('#feedtext').html('Error');
+      	    };
+      	  },
+      	  error: function (jqXHR) {
+        	  $('#feedtext').removeClass();
+      	    $('#feedtext').addClass('bg-danger');
+      	    $('#feedtext').html('Error'+jqXHR);
+      	  },
+      	  processData: false,
+      	  contentType: false
+      	})
+      })
+    </script>
+{%- endblock %}

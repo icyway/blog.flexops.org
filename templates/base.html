@@ -1,0 +1,88 @@
+{% block doc -%}
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:wb="http://open.weibo.com/wb">
+{%- block html %}
+  <head>
+    {%- block head %}
+    <meta charset="UTF-8">
+    <meta name="copyright" content="GPLv3">
+    <meta name="author" content="nil.song" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>flexops.org</title>
+    <link rel="icon" href="/static/css/favicon.ico">
+    <link href="/static/css/blog.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!--
+    <link href="/static/css/bootstrap-theme.min.css" rel="stylesheet">-->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <!-- <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=2022742157" type="text/javascript" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {%- endblock head %}
+  </head>
+  <body>
+  {% block body -%}
+    {% block navbar %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Flexops.org</a>
+        </div> <!--/.nav-header -->
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            {% for nav in navs.keys() %}
+            {% if nav == config.current %}
+            <li class="active"><a href="{{ navs[nav] }}">{{ nav }}</a></li>
+            {% else %}
+            <li><a href="{{ navs[nav] }}">{{ nav }}</a></li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <label class="sr-only" for="searchBox">search</label>
+              <input type="text" placeholder="search" id="searchBox" class="form-control"\>
+            </div>
+              <button type="button" class="btn btn-success" method='POST' >Search</button>
+          </form>
+        </div><!--/.nav-collapse -->
+      </div> <!-- /.container -->
+    {%- endblock navbar %}
+    </nav>
+    {% block content -%}
+    {%- endblock content %}
+
+    <footer class="blog-footer">
+    {% block footer -%}
+      <div class="container">
+        <p>Powered by <a href="{{ config['wb_url'] }}">@宋万伟_ops</a> with <a href="http://getbootstrap.com">Bootstrap</a>.</p>
+        <p><a href="#">Back to top</a></p>
+      </div>
+    {%- endblock footer %}
+    </footer>
+    {% block scripts %}
+    <script type="text/javascript" src="/static/js/js.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+     -->
+    <script src="/static/js/ie10-viewport-bug-workaround.js"></script>
+    {%- endblock scripts %}
+  {%- endblock body %}
+  </body>
+{%- endblock html %}
+</html>
+{% endblock doc -%}

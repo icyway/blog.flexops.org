@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<html lang="zh-CN" xmlns:wb="http://open.weibo.com/wb">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>flexops.org</title>
+    <meta name="author" content="nil.song" >
+    <link rel="icon" href="/static/css/favicon.ico">
+    <meta name="generator" content="Bluefish 2.2.6" >
+    <meta name="date" content="2015-05-16T20:50:20+0800" >
+    <meta name="copyright" content="GPLv3">
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+    <meta http-equiv="content-style-type" content="text/css">
+    <link href="/static/css/blog.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <!-- <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=2022742157" type="text/javascript" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Flexops.org</a>
+        </div> <!--/.nav-header -->
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">article</a></li>
+            <li><a href="#contact">about</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <label class="sr-only" for="searchBox">search</label>
+              <input type="text" placeholder="search" id="searchBox" class="form-control"\>
+            </div>
+              <button type="button" class="btn btn-success" method='POST' >Search</button>
+          </form>
+        </div><!--/.nav-collapse -->
+      </div> <!-- /.container -->
+    </nav>
+    <div class="container">
+      <div class="page-header">
+        <h1>弹性运维 <small>以干掉运维为己任</small></h1>
+      </div>  <!-- /.page -->
+      <div class="row">
+        <div class="col-sm-8">
+        {% for post in posts%}
+
+          {% if loop.index != 1 %}
+          <hr class="featurette-divider">
+          {% endif %}
+          <div class="featurette">
+              <h3 class="featurette-heading"><a href="{{ post.url }}">{{ post.title }}</a></h3>
+              <p>03 April 2015 Posted in <a href="{{ post.tag }}">{{ post.tag }}</a></p>
+              <div class="short-content">
+                  <p>{{ post.content }}</p>
+                  <p class="text-right"><a href="{{ post.url }}">继续阅读....</a></p>
+              </div>
+          </div> <!-- /.featurette -->
+        {% endfor %}
+        </div>  <!-- /.col-sm-8 -->
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset" >
+            <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=0&uid=1714831805&verifier=287d921f&dpc=1"></iframe>
+          </div>
+          <div class="sidebar-module sidebar-module-inset">
+            <h3 class="blog-post-title">article</h3>
+            <div class="list-group">
+              {% for tag in tags %}
+              {% if tag.active == True %}
+              <a href="/article/{{ tag.name }}" class="list-group-item active">{{ tag.name }}<span class="badge">{{ tag.badge }}</span></a>
+              {% else %}
+              <a href="/article/{{ tag.name }}" class="list-group-item">{{ tag.name }}<span class="badge">{{ tag.badge }}</span></a></a>
+              {% endif %}
+              {% endfor %}
+            </div> <!-- /.list -->
+          </div> <!-- /.sidebar -->
+          <div class="sidebar-module sidebar-module-inset">
+            <h3 class="blog-post-title">archive</h3>
+            <div class="list-group">
+              {% for archive in archives %}
+              <a href="#" class="list-group-item">{{ archive.name }}<span class="badge">{{ archive.badge }}</span></a>
+              {% endfor %}
+            </div> <!-- /.list -->
+          </div> <!-- /.sidebar -->
+        </div> <!-- /.col-sm-3 -->
+      </div>  <!-- /.row -->
+      <wb:comments url="http://open.weibo.com/widget/comments.php" width="auto" appkey="2022742157" ></wb:comments>
+    </div>  <!-- /.container -->
+    <footer class="blog-footer">
+      <div class="container">
+        <p>Powered by <a href="{{ weibo }}">@宋万伟_ops</a> with <a href="http://getbootstrap.com">Bootstrap</a>.</p>
+        <p><a href="#">Back to top</a></p>
+      </div>
+    </footer>
+    <script type="text/javascript" src="/static/js/js.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript">
+    <!--
+
+    // -->
+    </script>
+  </body>
+
+</html>

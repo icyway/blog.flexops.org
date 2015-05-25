@@ -1,0 +1,28 @@
+{% extends "sidebar.html" %}
+{% block content -%}
+ <div class="container">
+  <div class="page-header">
+    <h1>弹性运维 <small>以干掉运维为己任</small></h1>
+  </div>  <!-- /.page -->
+  <div class="row">
+    <div class="col-sm-8">
+    {% for post in posts%}
+      {% if loop.index != 1 %}
+      <hr class="featurette-divider">
+      {% endif %}
+      <div class="featurette">
+          <h3 class="featurette-heading"><a href="/views/{{ post.id }}">{{ post.title }}</a></h3>
+          <p>{{ post.modified.date() }} Posted in {% for tag in post.tags %}<a href="/article/{{ tag.name }}"> {{ tag.name }} </a>{% endfor %}</p>
+          <div class="short-content">
+              <p>{{ markdown(post.summary) }}</p>
+              <p class="text-right"><a href="/views/{{ post.id }}">继续阅读....</a></p>
+          </div>
+      </div> <!-- /.featurette -->
+    {% endfor %}
+    </div>  <!-- /.col-sm-8 -->
+    {% block sidebar -%}
+    {{ super() }}
+    {%- endblock %}
+  </div>  <!-- /.row -->
+</div>  <!-- /.container -->
+{%- endblock %}

@@ -1,0 +1,28 @@
+{% extends "sidebar.html" %}
+{% block head -%}
+{{ super() }}
+    <link href="/static/css/solarized-light.css" rel="stylesheet">
+{%- endblock %}
+{% block content -%}
+ <div class="container">
+  <div class="page-header">
+      <!-- <h1>弹性运维 <small>以干掉运维为己任</small></h1> -->
+    <h1>{{ post.title }}<small>{% for tag in post.tags %} {{ tag.name }} {% endfor %}</small></h1>
+  </div>  <!-- /.page -->
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="page-header">
+          <!-- 
+              <h1>{{ post.title }}<small>{% for tag in post.tags %} {{ tag.name }} {% endfor %}</small></h1>
+          -->
+      </div>  <!-- /.page -->
+      <div class="featurette">
+      {{ html }}
+      </div> <!-- /.featurette -->
+    </div>  <!-- /.col-sm-8 -->
+    {% block sidebar -%}
+    {{ super() }}
+    {%- endblock %}
+  </div>  <!-- /.row -->
+</div>  <!-- /.container -->
+{%- endblock %}
