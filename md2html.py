@@ -9,6 +9,19 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 
 
+# Class for add line number
+class LineNoHtmlFormatter(HtmlFormatter):
+    def wrap(self, source, outfile):
+        return self._wrap_code(self._wrap_div(self._wrap_pre(source)))
+
+    def _wrap_code(self, source):
+        for i, t in source:
+            if i == 1:
+                # it's a line of formatted code
+                t = '<span class="wrapLineNo"></span>' + t
+            yield i, t
+
+
 # Parse markdown to html
 class BleepRenderer(HtmlRenderer, SmartyPants):
 
@@ -18,7 +31,11 @@ class BleepRenderer(HtmlRenderer, SmartyPants):
                 h.escape_html(text.strip())
 
         lexer = get_lexer_by_name(lang, stripall=True)
-        formatter = HtmlFormatter(style='solarizedlight')
+        formatter = LineNoHtmlFormatter(
+            # linenos='inline',
+            style='github'
+            # linenostart=1
+        )
         return highlight(text, lexer, formatter)
 
 

@@ -3,6 +3,7 @@ body {
     /* background-image: url(/static/img/164.jpg); */
     background-repeat: no-repeat;
     background-position:top center;
+    font-family: consolas, '黑体';
 }
 
 #footer {
