@@ -44,11 +44,11 @@ class BleepRenderer(HtmlRenderer, SmartyPants):
             line
 
 
-text_rndr = BleepRenderer()
+text_rndr = BleepRenderer(flags=m.HTML_TOC)
 md = Markdown(
     text_rndr,
     extensions=m.EXT_NO_INTRA_EMPHASIS | m.EXT_FENCED_CODE | m.EXT_AUTOLINK |
-    m.EXT_LAX_HTML_BLOCKS | m.EXT_TABLES |
+    m.EXT_LAX_HTML_BLOCKS | m.EXT_TABLES
 )
 
 
