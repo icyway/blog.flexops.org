@@ -6,35 +6,58 @@
   </div>  <!-- /.page -->
   <div class="row">
     <div class="col-sm-8">
-      <div> <!-- 上传新文章 -->
-        <form id="addPost" method="POST" enctype="multipart/form-data">
-          <h2 class="form-signin-heading">上传新文章</h2>
-          <div class="form-group">
-            <label for="inputTitle">文章标题</label>
-            <input type="text" id="inputTitle" name="title" class="form-control" placeholder="文章标题" required autofocus>
+      <div role="tabpanel">
+      
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#upload" aria-controls="upload" role="tab" data-toggle="tab">上传</a></li>
+          <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">编辑</a></li>
+          <li role="presentation"><a href="#setting" aria-controls="setting" role="tab" data-toggle="tab">设置</a></li>
+        </ul>
+      
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="upload">
+            <form id="addPost" method="POST" enctype="multipart/form-data">
+              <h2 class="form-signin-heading">上传新文章</h2>
+              <div class="form-group">
+                <label for="inputTitle">文章标题</label>
+                <input type="text" id="inputTitle" name="title" class="form-control" placeholder="文章标题" required autofocus>
+              </div>
+              <div class="form-group">
+                <label for="inputTags">Tags</label>
+                <input type="text" id="inputTags" name='tags' class="form-control" placeholder="Tags 以空格分隔" required>
+              </div>
+              <div class="form-group">
+                <label for="inputSummary">介绍</label>
+                <textarea type="text" id="inputSummary" name='Summary' class="form-control" placeholder="简单介绍" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="inputFile">选择Markdown文件</label>
+                <input type="file" id="inputFile" name='mdfile' required>
+              </div>
+              <button class="btn btn-default" id="upload" type="button">上传</button>
+              <p id='feedtext' class="hidden">成功</p>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="inputTags">Tags</label>
-            <input type="text" id="inputTags" name='tags' class="form-control" placeholder="Tags 以空格分隔" required>
+          <div role="tabpanel" class="tab-pane" id="edit">
+            <table class="table table-hover table-striped table-condensed ">
+              {% for post in posts %}
+                  <a href="/admin/e/{{ post.id }}">{{ post.title }}</a>
+              {% endfor %}
+            </table>
+            <div class="btn-group" role="group" aria-label="...">
+              <button type="button" class="btn btn-default">1</button>
+              <button type="button" class="btn btn-default">2</button>
+              <button type="button" class="btn btn-default">3</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="inputSummary">介绍</label>
-            <textarea type="text" id="inputSummary" name='Summary' class="form-control" placeholder="简单介绍" required></textarea>
+          <div role="tabpanel" class="tab-pane" id="setting">
           </div>
-          <div class="form-group">
-            <label for="inputFile">选择Markdown文件</label>
-            <input type="file" id="inputFile" name='mdfile' required>
-          </div>
-          <button class="btn btn-default" id="upload" type="button">上传</button>
-          <p id='feedtext' class="hidden">成功</p>
-        </form>
+        </div>
+      
       </div>
-      <div class="add-padding"> <!-- 编辑旧文章 -->
-        {% for post in posts %}
-        <h6>{{ post.title }}<small>{{ post.update }}</small></h6>
-        <button class="btn btn-info" type="button">编辑</button>
-        {% endfor %}
-      </div>
+
     </div>  <!-- /.col-sm-8 -->
     {% block sidebar -%}
     {{ super() }}
@@ -56,7 +79,6 @@
         //console.log(mdfile);
       	$.ajax({
       	  url: '/addPost',
-      	  //method: 'POST',
       	  type: 'POST',
       	  enctype: 'multipart/form-data',
       	  data: mdfile,

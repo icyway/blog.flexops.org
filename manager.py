@@ -6,7 +6,7 @@ import web
 import json
 import codecs
 from hashlib import md5
-from md2html import md2html
+from md2html import md2html, md2html_toc
 from datetime import datetime
 from config import configs, urls
 from utils import SQLAStore
@@ -27,7 +27,7 @@ app.add_processor(load_sqla)
 # )
 # session.logined = 0
 
-web.config.session_parameters['cookie_name'] = 'webpy_sid'
+web.config.session_parameters['cookie_name'] = 'sid'
 web.config.session_parameters['timeout'] = 600
 web.config.session_parameters['ignore_expiry'] = True
 web.config.session_parameters['ignore_change_ip'] = False
@@ -81,13 +81,21 @@ class Home:
 class Views:
     def GET(self, postId):
         post = web.ctx.orm.query(Post).filter_by(id=postId).first()
-        f = os.path.join('articles', post.filename)
-        mdFile = codecs.open(f, mode='r', encoding='utf-8')
-        content = mdFile.read()
-        html = md2html(content)
-        mdFile.close()
+        if post:
+            f = os.path.join('articles', post.filename)
+        else:
+            raise web.NotFound
+
+        try:
+            mdFile = codecs.open(f, mode='r', encoding='utf-8')
+            content = mdFile.read()
+            toc, html = md2html_toc(content)
+            mdFile.close()
+        except:
+            mdFile.close()
+            raise web.seeother('/')
         # html = md2html('articles/' + post.filename)
-        return render_template('view.html', html=html, post=post)
+        return render_template('view.html', toc=toc, html=html, post=post)
 
 
 class GetTags:
@@ -107,10 +115,15 @@ class About:
 class Admin:
     def GET(self):
         if checkLogged():
-            return render_template('admin.html')
+            postsQuery = web.ctx.orm.query(Post).order_by('modified desc')
+            posts = postsQuery.all()
+            return render_template('admin.html', posts=posts)
         else:
             print 'Failed'
             raise web.seeother('/login')
+
+    def POST(self):
+        pass
 
 
 class Login:
@@ -160,7 +173,6 @@ class AddPost:
                 web.ctx.orm.flush()
 
             newPost.tags.append(newTags)
-            # newTags.posts.append(newPost)
 
         fout = open('articles/'+mdName, 'w')
         fout.write(fileSrc)
@@ -180,3 +192,5 @@ class EditPosts:
 
 if __name__ == '__main__':
     app.run()
+
+application = app.wsgifunc()

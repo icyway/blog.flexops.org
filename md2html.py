@@ -3,6 +3,7 @@
 
 import misaka as m
 import houdini as h
+from jinja2 import Markup
 from misaka import Markdown, HtmlRenderer, SmartyPants
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
@@ -38,17 +39,32 @@ class BleepRenderer(HtmlRenderer, SmartyPants):
         )
         return highlight(text, lexer, formatter)
 
+    def preprocess(self, text):
+        for line in text:
+            line
 
-renderer = BleepRenderer()
+
+text_rndr = BleepRenderer()
 md = Markdown(
-    renderer,
+    text_rndr,
     extensions=m.EXT_NO_INTRA_EMPHASIS | m.EXT_FENCED_CODE | m.EXT_AUTOLINK |
-    m.EXT_LAX_HTML_BLOCKS | m.EXT_TABLES
+    m.EXT_LAX_HTML_BLOCKS | m.EXT_TABLES |
 )
 
 
 def md2html(md_file):
     return md.render(md_file)
+
+
+def md2html_toc(md_file):
+    tocTree = m.html(
+        md_file,
+        extensions=m.EXT_NO_INTRA_EMPHASIS | m.EXT_FENCED_CODE,
+        render_flags=m.HTML_SMARTYPANTS|m.HTML_TOC_TREE
+    )
+    tocTree = Markup(tocTree).unescape()
+
+    return tocTree, md.render(md_file)
 
 
 if __name__ == '__main__':
