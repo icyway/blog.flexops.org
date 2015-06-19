@@ -77,13 +77,14 @@
         mdfile.append('summary', $('#inputSummary').val());
         mdfile.append('filename', filebox.name);
         //console.log(mdfile);
+        if(mdfile
       	$.ajax({
       	  url: '/addPost',
       	  type: 'POST',
       	  enctype: 'multipart/form-data',
       	  data: mdfile,
-      	  success: function () {
-      	    if ('success') {
+      	  success: function (data) {
+      	    if (data.success) {
         	  	$('#feedtext').removeClass();
         	  	$('#feedtext').addClass('bg-success');
         	  	$('#feedtext').html('成功');
@@ -96,7 +97,7 @@
       	  error: function (jqXHR) {
         	  $('#feedtext').removeClass();
       	    $('#feedtext').addClass('bg-danger');
-      	    $('#feedtext').html('Error'+jqXHR);
+      	    $('#feedtext').html('Error'+jqXHR.msg);
       	  },
       	  processData: false,
       	  contentType: false

@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import web
-from hashlib import md5
 from os import path as os_path
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, ForeignKey
@@ -112,6 +111,7 @@ if __name__ == '__main__':
     http://blog.e3rp4y.me/2014/08/21/sqlalchemy-many-to-many-relationship.html
     """
     import sys
+    from hashlib import md5
     metadata = Base.metadata
     if sys.argv[1] == '-c':
         metadata.create_all(engine)

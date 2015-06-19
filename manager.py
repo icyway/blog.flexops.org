@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # coding:utf8
 
+from __future__ import unicode_literals
+from __future__ import print_function
+
 import os
 import web
 import json
-import codecs
+from io import open
 from hashlib import md5
-from md2html import md2html, md2html_toc
+from md2html import md2html, md2body
 from datetime import datetime
 from config import configs, urls
 from utils import SQLAStore
@@ -61,7 +64,7 @@ def getTags():
 
 @context_processor
 def addMarkdown():
-    return {'markdown': md2html}
+    return {'markdown': md2body}
 
 
 class Home:
@@ -86,16 +89,13 @@ class Views:
         else:
             raise web.NotFound
 
-        try:
-            mdFile = codecs.open(f, mode='r', encoding='utf-8')
-            content = mdFile.read()
-            toc, html = md2html_toc(content)
-            mdFile.close()
-        except:
-            mdFile.close()
-            raise web.seeother('/')
+        # mdFile = codecs.open(f, mode='r', encoding='utf8')
+        mdFile = open(f, encoding='utf-8')
+        content = mdFile.read()
+        html = md2html(content)
+        mdFile.close()
         # html = md2html('articles/' + post.filename)
-        return render_template('view.html', toc=toc, html=html, post=post)
+        return render_template('view.html', html=html, post=post)
 
 
 class GetTags:
@@ -119,7 +119,6 @@ class Admin:
             posts = postsQuery.all()
             return render_template('admin.html', posts=posts)
         else:
-            print 'Failed'
             raise web.seeother('/login')
 
     def POST(self):
@@ -136,7 +135,7 @@ class Login:
         passwd = web.input().passwd
         passwd = md5(passwd).hexdigest()
         check = web.ctx.orm.query(User).filter_by(
-            name=user, passwd=passwd
+            email=user, passwd=passwd
         ).first()
         if check and passwd == check.passwd:
             session.logined = 1
@@ -153,7 +152,7 @@ class AddPost:
         tags = web.input().tags.split()
         mdName = web.input().filename
         mdSummary = web.input().summary
-        fileSrc = web.input().mdfile
+        fileSrc = web.input().mdfile.decode('utf8')
 
         newPost = Post(
             title=title,
