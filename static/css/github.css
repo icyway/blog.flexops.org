@@ -19,7 +19,7 @@ pre {
     word-wrap: inherit;
 }
 
-pre x::before {
+pre .wrapLineNo::before {
   content: counter(line-numbering);
   counter-increment: line-numbering;
   padding-right: 1em; /* space after numbers */
@@ -41,15 +41,15 @@ pre x::before {
 }
 
 /*
-pre x:first-of-type::before {
+pre .wrapLineNo:first-of-type::before {
   padding-top: 10px;
 }
 
-pre x:last-of-type::before {
+pre .wrapLineNo:last-of-type::before {
   padding-bottom: 10px;
 }
 
-pre x:only-of-type::before {
+pre .wrapLineNo:only-of-type::before {
   padding: 10px;
 }*/
 .highlight pre{ 

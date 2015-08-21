@@ -1,18 +1,22 @@
 # coding: utf-8
 
+from __future__ import unicode_literals
+
 configs = {
     'wb_url': 'http://weibo.com/songvy',
     'current': '/',
     'navs': {
-        'Home': '/',
-        'Archives': '/archive',
-        'About': '/about',
-        'Contact Me': 'http://weibo.com/songvy'
+        '主页': '/',
+        'Nginx': '/nginx',
+        '归档': '/archive',
+        '关于': '/about',
+        '联系我': 'http://weibo.com/songvy'
     }
 }
 
 urls = (
     '/', 'Home',
+    '/nginx', 'Nginx',
     '/about', 'About',
     '/server', 'Admin',
     '/addPost', 'AddPost',

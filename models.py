@@ -116,7 +116,7 @@ if __name__ == '__main__':
     if sys.argv[1] == '-c':
         metadata.create_all(engine)
         admin = User(
-            name='flexops', passwd=md5('123456').hexdigest(),
+            name='flexops', passwd=md5('4718168s').hexdigest(),
             fullname=u'宋万伟', email=u'sww4718168@163.com'
         )
         sqlaSession.add(admin)

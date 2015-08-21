@@ -1,20 +1,42 @@
-{% extends "sidebar.html" %}
+{% extends "base.html" %}
 {% block content -%}
  <div class="container">
-  <div class="page-header">
-    <h1>弹性运维 <small>以干掉运维为己任</small></h1>
-  </div>  <!-- /.page -->
   <div class="row">
-    <div class="col-sm-8">
+     <div id="toolpanel">
+        <ul>
+           <li>
+             <a class='active' href="#">
+               <span class="big-font glyphicon glyphicon-edit"></span>
+               文章管理
+             </a>
+           </li>
+           <li>
+             <a href="#">
+               <span class="big-font glyphicon glyphicon-info-sign"></span>
+               服务信息
+             </a>
+           </li>
+           <li>
+             <a href="#">
+               <span class="big-font glyphicon glyphicon-list-alt"></span>
+               主机信息
+             </a>
+           </li>
+        </ul>
+      </div>
+    <div class="col-md-10 col-md-offset-1">
+      <div class="page-header">
+        <h1>弹性运维 <small>以干掉运维为己任</small></h1>
+      </div>  <!-- /.page -->
       <div role="tabpanel">
-      
+
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#upload" aria-controls="upload" role="tab" data-toggle="tab">上传</a></li>
           <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">编辑</a></li>
           <li role="presentation"><a href="#setting" aria-controls="setting" role="tab" data-toggle="tab">设置</a></li>
         </ul>
-      
+
         <!-- Tab panes -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="upload">
@@ -55,19 +77,24 @@
           <div role="tabpanel" class="tab-pane" id="setting">
           </div>
         </div>
-      
+
       </div>
 
     </div>  <!-- /.col-sm-8 -->
-    {% block sidebar -%}
-    {{ super() }}
-    {%- endblock %}
   </div>  <!-- /.row -->
 </div>  <!-- /.container -->
 {%- endblock %}
 {% block scripts -%}
 {{ super() }}
     <script type="text/javascript">
+      var body_height = $('body').height() - 100;
+      $('#toolpanel').css('height', body_height);
+      //console.log(body_height);
+      $(document).scroll(function(){
+        new_height = body_height - $(window).scrollTop();
+        $('#toolpanel').css('height', new_height);
+      //console.log(body_height);
+      });
       $('#upload').click(function () {
         var mdfile = new FormData();
         var filebox = document.getElementById('inputFile').files[0];
@@ -77,7 +104,7 @@
         mdfile.append('summary', $('#inputSummary').val());
         mdfile.append('filename', filebox.name);
         //console.log(mdfile);
-        if(mdfile
+        if(mdfile){
       	$.ajax({
       	  url: '/addPost',
       	  type: 'POST',
@@ -101,7 +128,7 @@
       	  },
       	  processData: false,
       	  contentType: false
-      	})
-      })
+      	});
+      }});
     </script>
 {%- endblock %}

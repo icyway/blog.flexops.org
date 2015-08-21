@@ -1,8 +1,5 @@
 body {
     padding-top: 80px;
-    /* background-image: url(/static/img/164.jpg); */
-    background-repeat: no-repeat;
-    background-position:top center;
     font-family: consolas, '黑体';
 }
 
@@ -32,4 +29,112 @@ body {
 
 .add-padding {
     padding-top: 30px;
+}
+
+.highlight{
+    width:100%;
+    height: auto;
+    overflow: auto;
+}
+
+pre {
+    counter-reset: line-numbering;
+    /*border: solid 1px #d9d9d9;*/
+    border-radius: 0;
+    /*background: #fff;*/
+    padding: 0;
+    font-size: 14px;
+    line-height: 23px;
+    margin-bottom: 30px;
+    white-space: pre;
+    overflow-x: auto;
+    word-break: inherit;
+    word-wrap: inherit;
+}
+
+pre .wrapLineNo::before {
+  content: counter(line-numbering);
+  counter-increment: line-numbering;
+  padding-right: 1em; /* space after numbers */
+  width: 25px;
+  text-align: right;
+  opacity: 0.7;
+  display: inline-block;
+  color: #aaa;
+  background: #eee;
+  margin-right: 16px;
+  padding: 2px 10px;
+  font-size: 13px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/*
+pre .wrapLineNo:first-of-type::before {
+  padding-top: 10px;
+}
+
+pre .wrapLineNo:last-of-type::before {
+  padding-bottom: 10px;
+}*/
+
+.box {
+  box-shadow: 0 0 5px rgba(0,0,0,0.25);
+  -webkit-box-shadow: -1 0 5px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0 0 5px rgba(0,0,0,0.25);
+}
+
+#toolpanel{
+  position: fixed;
+  top: 50px;
+  height: 100%;
+  width: 75px;
+  display: block;
+  border: 1px solid #dedfe1;
+  background-color: #edeff4;
+}
+
+#toolpanel a {
+  text-decoration: none;
+  color: #515d7a;
+}
+
+#toolpanel ul {
+  padding-top: 30px;
+  padding-left: 0px;
+}
+
+#toolpanel li{
+  list-style: none;
+  padding-top: 50px;
+  position: relative;
+}
+
+#toolpanel li:hover{
+    background-color: #eeeeee;
+}
+
+#toolpanel li > a{
+  color: #23527c;
+  width:75px;
+  line-height: 50px;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  border: 1px solid transparent;
+}
+#toolpanel li > a span{
+  display: block;
+}
+#toolpanel li > a:active{
+  border:1px solide red;
+  border-bottom-color:transparent;
+}
+
+.big-font {
+  font-size: 25px;
 }

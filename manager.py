@@ -130,7 +130,6 @@ class Login:
         return render_template('login.html')
 
     def POST(self):
-        # if checkLogin():
         user = web.input().username
         passwd = web.input().passwd
         passwd = md5(passwd).hexdigest()
