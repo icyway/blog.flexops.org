@@ -96,7 +96,7 @@ def md2html(md_file):
         text = md_file.replace(title_pattern.match(md_file).group(), '')
         text = text.replace(tag_pattern.match(text).group(), '')
     except:
-        pass
+        text = md_file
 
     return {
         'tags': getTags(md_file, parsed=True),
